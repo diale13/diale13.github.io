@@ -13,6 +13,7 @@
 - type: rss
   icon: "fas fa-rss"
   noblank: true
+
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
@@ -20,9 +21,10 @@
 #   url:  ''                  # Fill with your Mastodon account page, rel="me" will be applied for verification
 #
 # - type: linkedin
-#   icon: 'fab fa-linkedin'   # icons powered by <https://fontawesome.com/>
-#   url:  ''                  # Fill with your Linkedin homepage
-#
+#  icon: 'fab fa-linkedin'   # icons powered by <https://fontawesome.com/>
+#  url:  'www.linkedin.com/in/diego-franggi-9a43ba140'                  # Fill with your Linkedin homepage
+#  noblank: true
+
 # - type: stack-overflow
 #   icon: 'fab fa-stack-overflow'
-#   url:  ''                  # Fill with your stackoverflow homepage
+#  url:  ''                  # Fill with your stackoverflow homepage
