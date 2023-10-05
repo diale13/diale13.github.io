@@ -5,15 +5,15 @@ title: TryHackMe - MrRobot CTF
 layout: post
 title: TryHackMe - MrRobotCTF
 date: 2023-10-03 20:45 -0300
-categories: [TryHackMe, Medium, CTF]
+categories: [TryHackMe, Easy, CTF]
 tags: [Wordpress, PrivEsc]    
 image: /assets/Posts/MrRobot/1_Teaser.png
 ---
 
-## DESCRIPCION
 Para dar inicio al blog decidí hacer el CTF de MrRobot. Una serie que me gusta mucho y su CTF parece estar en niveles muy altos de calidad y lleno de referencias. No compartiré las banderas encontradas, pero sí guiaré a quien quiera hasta ellas.
 
-## Enumeracion
+
+## Enumeración
 Comenzamos con un escaneo de puertos utilizando nmap.
 Haremos el siguiente escaneo que, pese a no ser el más complejo, nos dará resultados más rápidos. 
 
@@ -59,9 +59,9 @@ nmap -sV -sC -p 80,443 -Pn -n --min-rate 5000 -A 10.10.116.55
 
 Donde:
 
--```-sV```-: Si es posible, mostrará la versión del servicio que se está ejecutando en cada puerto.
--```-A```-: Ejecutaremos todos los scripts relevantes (proporcionados por nmap) en estos puertos.
--```-p 80,443```-: Puertos abiertos.
+- ```-sV```-: Si es posible, mostrará la versión del servicio que se está ejecutando en cada puerto.
+- ```-A```-: Ejecutaremos todos los scripts relevantes (proporcionados por nmap) en estos puertos.
+- ```-p 80,443```-: Puertos abiertos.
 
 Obteniendo esta salida:
 
@@ -120,7 +120,7 @@ Dado que no parece haber más información a la vista, procederemos a realizar u
 ```bash
 $ gobuster dir -u http://10.10.116.55/ -w /usr/share/wordlists/SecLists/Fuzzing/fuzz-Bo0oM.txt 
 ```
-El resultado es bastante completo, pero de momento solo nos interesan los de estado 200 por lo que ejecutaremos el siguiente comando ´´´grep´´´:
+El resultado es bastante completo, pero de momento solo nos interesan los de estado 200 por lo que ejecutaremos el siguiente comando ```grep```:
 
 ```bash
 # grep "(Status: 200)" temp 
@@ -156,7 +156,7 @@ El otro directorio al que podemos acceder es un diccionario con lo que podremos 
 ![Desktop View](/assets/Posts/MrRobot/4_diccionario.png){: width="972" height="589" }
 _Diccionario encontrado_
 
-## Analizando lo enumerado
+### Analizando lo enumerado
 
 No nos podemos olvidar que tenemos mas endpoints para analizar, por ejemplo el de la licencia posee un mensaje escondido
 
@@ -210,7 +210,7 @@ En este punto, mostraré 2 formas de explotar este servicio de WordPress (hay ot
 
 Y si desean intentarlo por ustedes mismos, también pueden obtener una shell inversa mediante la carga de una imagen en la sección "Media". Solo tendríamos que agregar a nuestra payload con encabezado con los números mágicos del formato admitido por la web y renombrar la carga útil con ese formato. Para esto les recomiendo el uso de la tool de mi amigo: https://github.com/MachadoOtto/magik-monkee.
 
-## Plugin Falso
+### Plugin Falso
 
 Para la configuracion de plugins podemos dirigirnos al apartado correspondiente en Wordpress y cargar uno propio. Nuestro plugin tendra un codigo malicioso que al ejecutar se conecte a nuestra pc, dandonos acceso.
 
@@ -261,7 +261,7 @@ uid=1(daemon) gid=1(daemon) groups=1(daemon)
 $ 
 ```
 
-## Pagina 404 
+### Pagina 404 
 
 TO DO
 TO DO
@@ -277,11 +277,11 @@ TO DO
 TO DO
 
 
-# Dentro de la maquina
+##  Dentro de la maquina
 
 Luego de ejecutar cualquiera de los dos metodos estaremos dentro de la maquina. Aqui se recomienda empezar con un simple tratamiento de la tty:
 
-´´´python -c 'import pty; pty.spawn("/bin/bash")'´´´
+```pyhton -c 'import pty; pty.spawn("/bin/bash")'```
 
 Busquemos que usuarios existen:
 
