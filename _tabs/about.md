@@ -71,5 +71,3 @@ Feel free to get in touch with me if you have any questions or inquiries. I'm he
 
 [![Twitter](https://img.shields.io/badge/MF_Eternal-black?style=for-the-badge&logo=twitter)](https://twitter.com/MF_ETERNAL)
 
-
-You can also reach out to me through the contact form on this website. I'll do my best to respond promptly.
