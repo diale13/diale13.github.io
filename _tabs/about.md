@@ -67,7 +67,7 @@ Feel free to get in touch with me if you have any questions or inquiries. I'm he
 
 [![Email](https://img.shields.io/badge/diegofranggi1%40protonmail.com-black?style=for-the-badge&logo=protonmail)](mailto:diegofranggi1@protonmail.com)
 
-[![LinkedIn](https://img.shields.io/badge/Diego%20Franggi-black?style=for-the-badge&logo=linkedin)](www.linkedin.com/in/diego-franggi-9a43ba140)
+[![LinkedIn](https://img.shields.io/badge/Diego%20Franggi-black?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/diego-franggi-9a43ba140)
 
 [![Twitter](https://img.shields.io/badge/MF_Eternal-black?style=for-the-badge&logo=twitter)](https://twitter.com/MF_ETERNAL)
 
