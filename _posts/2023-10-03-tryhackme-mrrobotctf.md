@@ -363,4 +363,4 @@ Luego de una maquina larga siempre es dificil recordar los puntos clave de apren
 2. De estar perdidos revisar el codigo fuente en busca de oro.
 3. GTFOBINS es increible.
 
-_Keep hacking_ 
+_Keep hacking_  🙈🙉🙊 
