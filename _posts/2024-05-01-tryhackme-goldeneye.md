@@ -231,7 +231,7 @@ chmod +x ofc
 
 Y listo tenemos acceso de ROOT a todo, principalmente nuestra flag deseada. 
 
-# Conclusiones
+## Conclusiones
 - Muy interesante la explotacion de los correos usando hydra, realmente se pudo comprometer casi toda la "organizacion"
 - Un poco pesado el final principalmente por lo mucho que me tranque con la linea del cc pero queda para futuro!
 
