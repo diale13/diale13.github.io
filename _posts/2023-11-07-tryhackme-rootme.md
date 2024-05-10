@@ -115,10 +115,10 @@ _Rootme Panel_
 
 The site features a single file upload panel that appears to accept all extensions except .php. This gives us a clue – let's try bypassing that filter and uploading a reverse shell. To do this, we'll employ Burp Suite Intruder and test various extensions to see what works.
 
-Our shell code will look like this:
+Our shell code will look like this (without the . before the ?):
 
-```php
- <?php system($_GET['cmd']);?>
+```
+<.?php system($_GET['cmd']);?>
 ```
 
 The following screenshot illustrates the intercepted file upload process:

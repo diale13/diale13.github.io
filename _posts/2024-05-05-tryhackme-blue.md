@@ -12,7 +12,7 @@ image: /assets/Posts/Blue/logo.jpg
 
 ## Pre
 
-- Blue fue una de las primeras maquinas que hice al adentrarme en el mundo del hacking. Hace mucho que no la veo y queria hacer una maquina windows para practicar, por lo que me parecio buena idea volver a mis _roots_ (get it? como el root use...no importa).
+- Blue fue una de las primeras maquinas que hice al adentrarme en el mundo del hacking. Hace mucho que no la veo y queria hacer una maquina windows para practicar, por lo que me parecio buena idea volver a mis _roots_ (get it? como el root user...no importa).
 - Me gusto mucho la simplicidad y como lo fue guiando TryHackMe aunque tuve algunos problemas con el funcionamiento del exploit que requirieron un reset de la maquina. 
 
 ## Phase 1: Recon
